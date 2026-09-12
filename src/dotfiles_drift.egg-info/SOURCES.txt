@@ -1,0 +1,11 @@
+pyproject.toml
+src/dotfiles_drift/__init__.py
+src/dotfiles_drift/cli.py
+src/dotfiles_drift/scanner.py
+src/dotfiles_drift.egg-info/PKG-INFO
+src/dotfiles_drift.egg-info/SOURCES.txt
+src/dotfiles_drift.egg-info/dependency_links.txt
+src/dotfiles_drift.egg-info/entry_points.txt
+src/dotfiles_drift.egg-info/requires.txt
+src/dotfiles_drift.egg-info/top_level.txt
+tests/test_scanner.py

@@ -1,0 +1,21 @@
+Metadata-Version: 2.4
+Name: dotfiles-drift
+Version: 0.1.0
+Summary: Detect drift between your dotfiles repo and your actual machine
+Author-email: Yunare Maia <yunare@gmail.com>
+License: MIT
+Keywords: dotfiles,drift,sync,developer-tools,cli
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: System :: Systems Administration
+Classifier: Topic :: Utilities
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: click>=8.1
+Requires-Dist: rich>=13.0
+Requires-Dist: pydantic>=2.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0; extra == "dev"

@@ -1,0 +1,2 @@
+[console_scripts]
+dotfiles-drift = dotfiles_drift.cli:main
