@@ -4,7 +4,7 @@
 
 Answer the question: *"What changed on my machine that's not in my dotfiles repo, and vice versa?"*
 
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+![License](https://img.shields.io/github/license/yunaremaia/dotfiles-drift)
 
 ## Why
 
