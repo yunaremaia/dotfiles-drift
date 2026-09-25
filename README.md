@@ -4,6 +4,8 @@
 
 Answer the question: *"What changed on my machine that's not in my dotfiles repo, and vice versa?"*
 
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+
 ## Why
 
 You keep your dotfiles in a git repo. You clone it onto a new machine. But which files did you forget to add? Which files exist in `$HOME` but not in the repo? Which files have been modified locally without being committed?
@@ -71,7 +73,7 @@ Summary: 1 synced | 1 missing | 1 modified | 1 orphaned
 
 - [GNU Stow](https://www.gnu.org/software/stow/) — symlink manager, not drift detector
 - [yadm](https://yadm.io/) — dotfiles manager with git, but no drift reporting
-- [chezmoi](https://www.chezmoi.io/) — has `chezmoi diff` but heavier tool
+- [chezmoi](https://chezmoi.io/) — has `chezmoi diff` but heavier tool
 - [rcm](https://github.com/thoughtbot/rcm) — rc file management, no content diff
 
 `dotfiles-drift` is a **read-only detector** — it reports what's out of sync. You decide whether to symlink, copy, or use a full dotfiles manager.
