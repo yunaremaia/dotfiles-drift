@@ -48,14 +48,14 @@ dotfiles-drift status ~/dotfiles --only-tracked
 
 ```
 Dotfiles Drift — /root/dotfiles
-┏━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃ File          ┃ Status   ┃ Details                            ┃
-┡━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-│ .bashrc      │ synced   │                                   │
-│ .gitconfig   │ modified │ repo=2026-09-12 home=2026-08-30   │
-│ .vimrc       │ missing  │ exists in repo, not in $HOME       │
-│ .zshrc       │ orphaned │ exists in $HOME, not in repo      │
-└──────────────┴──────────┴────────────────────────────────────┘
+┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ File          ┃ Status       ┃ Details                            ┃
+┡━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ .bashrc      │ synced       │                                   │
+│ .gitconfig   │ modified     │ repo=2026-09-12 home=2026-08-30   │
+│ .vimrc       │ missing      │ exists in repo, not in $HOME       │
+│ .zshrc       │ orphaned     │ exists in $HOME, not in repo       │
+└──────────────┴──────────────┴────────────────────────────────────┘
 
 Summary: 1 synced | 1 missing | 1 modified | 1 orphaned
 ```
@@ -81,3 +81,8 @@ Summary: 1 synced | 1 missing | 1 modified | 1 orphaned
 ## License
 
 MIT
+
+---
+
+*For real-time PyPI version info, see: https://pypi.org/project/dotfiles-drift/*
+*Or find us on PyPI: badge.fury.io/py/dotfiles-drift*
