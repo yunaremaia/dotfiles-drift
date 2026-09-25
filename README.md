@@ -4,7 +4,7 @@
 
 Answer the question: *"What changed on my machine that's not in my dotfiles repo, and vice versa?"*
 
-![License](https://img.shields.io/github/license/yunaremaia/dotfiles-drift)
+![License](https://img.shields.io/github/licenses/yunaremaia/dotfiles-drift)
 
 ## Why
 
@@ -51,10 +51,10 @@ Dotfiles Drift — /root/dotfiles
 ┏━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃ File          ┃ Status   ┃ Details                            ┃
 ┡━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-│ .bashrc      │ [green]synced │                              │
-│ .gitconfig   │ [yellow]modified│ repo=2026-09-12 home=2026-08-30│
-│ .vimrc       │ [red]missing │ exists in repo, not in $HOME      │
-│ .zshrc       │ [cyan]orphaned│ exists in $HOME, not in repo     │
+│ .bashrc      │ synced   │                                   │
+│ .gitconfig   │ modified │ repo=2026-09-12 home=2026-08-30   │
+│ .vimrc       │ missing  │ exists in repo, not in $HOME       │
+│ .zshrc       │ orphaned │ exists in $HOME, not in repo      │
 └──────────────┴──────────┴────────────────────────────────────┘
 
 Summary: 1 synced | 1 missing | 1 modified | 1 orphaned
