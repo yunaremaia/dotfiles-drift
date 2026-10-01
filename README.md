@@ -5,7 +5,7 @@
 Answer the question: *"What changed on my machine that's not in my dotfiles repo, and vice versa?"*
 
 [![License](https://img.shields.io/github/license/yunaremaia/dotfiles-drift)](https://github.com/yunaremaia/dotfiles-drift/blob/main/LICENSE)
-[![CI](https://github.com/yunaremaia/dotfiles-drift/actions/workflows/ci.yml/badge.svg)](https://github.com/yunaremaia/dotfiles-drift/actions) [![Stars](https://img.shields.io/github/stars/yunaremaia/dotfiles-drift)](https://github.com/yunaremaia/dotfiles-drift)
+[![CI](https://github.com/yunaremaia/dotfiles-drift/actions/workflows/ci.yml/badge.svg)](https://github.com/yunaremaia/dotfiles-drift/actions) [![Stars](https://img.shields.io/github/stars/yunaremaia/dotfiles-drift)](https://github.com/yunaremaia/dotfiles-drift) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/) [![Release](https://img.shields.io/github/v/release/yunaremaia/dotfiles-drift)](https://github.com/yunaremaia/dotfiles-drift/releases/latest)
 
 ## Why
 
@@ -89,6 +89,17 @@ Eeztv1nCYUt1fwGWpzKC948gaWfjejYCAuLtUMgzDWbW
 
 Funding platforms are configured in [`.github/FUNDING.yml`](.github/FUNDING.yml).
 
+If this tool is useful to you, a star helps other people find it.
+
+## Related tools
+
+- **[driftcheck](https://github.com/yunaremaia/driftcheck)** — detect version drift between docs and toolchain files
+- **[license-drift](https://github.com/yunaremaia/license-drift)** — detect license drift across a monorepo
+- **[cli-shim](https://github.com/yunaremaia/cli-shim)** — shim CLI flags across tools with different syntax
+- **[sandbox-ffi-layers](https://github.com/yunaremaia/sandbox-ffi-layers)** — layer FFI calls behind a sandbox boundary
+
+Part of a family of focused, single-purpose developer tools — each one does one thing
+and does it well.
 ## License
 
 MIT
