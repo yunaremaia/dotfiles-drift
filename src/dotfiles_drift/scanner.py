@@ -7,6 +7,15 @@ from typing import Optional
 from dataclasses import dataclass, field, asdict
 
 
+class GitLsFilesError(Exception):
+    """Raised when the ``git ls-files`` command fails."""
+
+    def __init__(self, message: str, returncode: int = 1, stderr: str = "") -> None:
+        super().__init__(message)
+        self.returncode = returncode
+        self.stderr = stderr
+
+
 @dataclass
 class FileStatus:
     path: str  # relative path from repo/home
@@ -53,6 +62,48 @@ def _is_text_file(filepath: Path) -> bool:
         return False
 
 
+def _git_tracked_files(repo_path: Path) -> list[str]:
+    """List git-tracked files in ``repo_path`` via ``git ls-files``.
+
+    A failure is never treated as "no tracked files": an unreadable repository
+    would otherwise yield a scan result with zero repo files, i.e. a false
+    "no drift" report for a scan that never happened.
+
+    Raises:
+        GitLsFilesError: If git exits non-zero or the git executable is missing.
+    """
+    import subprocess
+
+    try:
+        result = subprocess.run(
+            ["git", "ls-files"],
+            cwd=str(repo_path),
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+    except subprocess.CalledProcessError as e:
+        err_msg = (
+            e.stderr.strip()
+            if e.stderr
+            else f"git command failed with exit code {e.returncode}"
+        )
+        raise GitLsFilesError(
+            f"git ls-files failed: {err_msg}",
+            returncode=e.returncode,
+            stderr=e.stderr or "",
+        ) from e
+    except OSError as e:
+        raise GitLsFilesError(
+            f"git ls-files failed: git executable not found ({e})",
+            returncode=127,
+        ) from e
+
+    # Exit code 0 with empty stdout means git found no tracked files; that is a
+    # legitimate empty result, unlike the failure paths above.
+    return [p.strip() for p in result.stdout.splitlines() if p.strip()]
+
+
 def scan_drift(
     repo_path: Path,
     home_path: Path,
@@ -66,6 +117,9 @@ def scan_drift(
         home_path: Path to $HOME
         ignore_patterns: Glob patterns to skip (e.g. ['.git', '*.bak'])
         only_tracked: If True, only check files tracked by git in repo
+
+    Raises:
+        GitLsFilesError: If only_tracked is True and ``git ls-files`` fails.
     """
     import fnmatch
 
@@ -74,15 +128,7 @@ def scan_drift(
 
     # Determine which files to check in repo
     if only_tracked:
-        # Use git ls-files
-        import subprocess
-        try:
-            out = subprocess.check_output(
-                ["git", "ls-files"], cwd=str(repo_path), text=True
-            )
-            repo_files = [p.strip() for p in out.splitlines() if p.strip()]
-        except Exception:
-            repo_files = []
+        repo_files = _git_tracked_files(repo_path)
     else:
         repo_files = []
         for p in repo_path.rglob("*"):
