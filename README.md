@@ -4,8 +4,8 @@
 
 Answer the question: *"What changed on my machine that's not in my dotfiles repo, and vice versa?"*
 
-![License](https://img.shields.io/endpoint?url=https://img.shields.io/licenses/MIT)
-![CI](https://github.com/yunaremaia/dotfiles-drift/workflows/CI/badge.svg) ![Stars](https://img.shields.io/github/stars/yunaremaia/dotfiles-drift)
+[![License](https://img.shields.io/github/license/yunaremaia/dotfiles-drift)](https://github.com/yunaremaia/dotfiles-drift/blob/main/LICENSE)
+[![CI](https://github.com/yunaremaia/dotfiles-drift/actions/workflows/ci.yml/badge.svg)](https://github.com/yunaremaia/dotfiles-drift/actions) [![Stars](https://img.shields.io/github/stars/yunaremaia/dotfiles-drift)](https://github.com/yunaremaia/dotfiles-drift)
 
 ## Why
 
@@ -79,11 +79,16 @@ Summary: 1 synced | 1 missing | 1 modified | 1 orphaned
 
 `dotfiles-drift` is a **read-only detector** — it reports what's out of sync. You decide whether to symlink, copy, or use a full dotfiles manager.
 
+## Sponsoring
+
+`dotfiles-drift` is MIT licensed and free to use. If it earns a permanent place in your setup, you can support continued maintenance via GitHub Sponsors or by sending SOL to the project treasury wallet:
+
+```text
+Eeztv1nCYUt1fwGWpzKC948gaWfjejYCAuLtUMgzDWbW
+```
+
+Funding platforms are configured in [`.github/FUNDING.yml`](.github/FUNDING.yml).
+
 ## License
 
 MIT
-
----
-
-*For real-time PyPI version info, see: https://pypi.org/project/dotfiles-drift/*
-*Or find us on PyPI: badge.fury.io/py/dotfiles-drift*
