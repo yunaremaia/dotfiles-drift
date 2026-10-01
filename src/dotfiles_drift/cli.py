@@ -8,9 +8,22 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 
-from .scanner import scan_drift, apply_sync, ScanResult
+from .scanner import scan_drift, apply_sync, ScanResult, GitLsFilesError
 
 console = Console()
+
+
+def _scan_or_exit(repo, home, only_tracked) -> ScanResult:
+    """Run scan_drift, turning a git failure into a clean error and exit code 1.
+
+    A scan that could not read the repository must never be presented as a
+    drift report: the user would trust a result that does not exist.
+    """
+    try:
+        return scan_drift(Path(repo), Path(home), only_tracked=only_tracked)
+    except GitLsFilesError as e:
+        console.print(f"[bold red]ERROR:[/bold red] {e}")
+        raise SystemExit(1) from e
 
 
 def _result_table(result: ScanResult) -> Table:
@@ -56,7 +69,7 @@ def cli():
 @click.option("--format", "fmt", type=click.Choice(["table", "json"]), default="table")
 def status(repo, home, only_tracked, fmt):
     """Show drift status."""
-    result = scan_drift(Path(repo), Path(home), only_tracked=only_tracked)
+    result = _scan_or_exit(repo, home, only_tracked)
     if fmt == "json":
         console.print(json.dumps({
             "repo": result.repo_path,
@@ -89,7 +102,7 @@ def status(repo, home, only_tracked, fmt):
 @click.option("--force", is_flag=True, help="Apply even if it overwrites")
 def sync(repo, home, only_tracked, dry_run, force):
     """Sync repo files to $HOME."""
-    result = scan_drift(Path(repo), Path(home), only_tracked=only_tracked)
+    result = _scan_or_exit(repo, home, only_tracked)
     actions = apply_sync(Path(repo), Path(home), result, dry_run=not force)
 
     if not actions:
