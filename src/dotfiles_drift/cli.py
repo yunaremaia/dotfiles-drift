@@ -62,16 +62,15 @@ def cli():
     pass
 
 
-@cli.command()
-@click.argument("repo", type=click.Path(exists=True, file_okay=False))
-@click.option("--home", type=click.Path(), default=str(Path.home()), help="Path to $HOME")
-@click.option("--only-tracked", is_flag=True, help="Only check git-tracked files")
-@click.option("--format", "fmt", type=click.Choice(["table", "json"]), default="table")
-def status(repo, home, only_tracked, fmt):
-    """Show drift status."""
-    result = _scan_or_exit(repo, home, only_tracked)
-    if fmt == "json":
-        console.print(json.dumps({
+def _json_report(result: ScanResult) -> str:
+    """Render the report as a JSON document.
+
+    Returned as a string rather than printed here so the caller controls the
+    only thing that matters for machine-readable output: exactly one document
+    on stdout, with nothing wrapped, styled or appended.
+    """
+    return json.dumps(
+        {
             "repo": result.repo_path,
             "home": result.home_path,
             "synced": result.synced,
@@ -82,7 +81,26 @@ def status(repo, home, only_tracked, fmt):
                 {"path": f.path, "status": f.status}
                 for f in result.files
             ],
-        }, indent=2))
+        },
+        indent=2,
+    )
+
+
+@cli.command()
+@click.argument("repo", type=click.Path(exists=True, file_okay=False))
+@click.option("--home", type=click.Path(), default=str(Path.home()), help="Path to $HOME")
+@click.option("--only-tracked", is_flag=True, help="Only check git-tracked files")
+@click.option("--format", "fmt", type=click.Choice(["table", "json"]), default="table")
+def status(repo, home, only_tracked, fmt):
+    """Show drift status."""
+    result = _scan_or_exit(repo, home, only_tracked)
+    if fmt == "json":
+        # Deliberately NOT console.print: rich word-wraps to the terminal width,
+        # re-indenting continuation lines inside string literals, and it parses
+        # "[...]" as a style tag. Either one produced output that looked like
+        # JSON and failed to parse -- a deeply nested checkout path was enough.
+        # `--format json` promises a document, so it goes out through print().
+        print(_json_report(result))
     else:
         console.print(_result_table(result))
         console.print(
