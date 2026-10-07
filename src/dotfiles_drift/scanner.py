@@ -104,6 +104,24 @@ def _git_tracked_files(repo_path: Path) -> list[str]:
     return [p.strip() for p in result.stdout.splitlines() if p.strip()]
 
 
+def _is_ignored(rel: str, ignore: list[str]) -> bool:
+    """Check if a relative path matches any ignore pattern.
+
+    Checks the full path and each path component against the ignore patterns.
+    This ensures that files under an ignored directory (e.g. ``.git/HEAD``
+    under ``.git/``) are also filtered.
+    """
+    import fnmatch
+    if any(fnmatch.fnmatch(rel, pat) for pat in ignore):
+        return True
+    parts = Path(rel).parts
+    return any(
+        fnmatch.fnmatch(part, pat)
+        for part in parts
+        for pat in ignore
+    )
+
+
 def scan_drift(
     repo_path: Path,
     home_path: Path,
@@ -121,8 +139,6 @@ def scan_drift(
     Raises:
         GitLsFilesError: If only_tracked is True and ``git ls-files`` fails.
     """
-    import fnmatch
-
     ignore = ignore_patterns or [".git", ".gitignore", ".gitmodules", "README.md", "LICENSE", "*.bak", "*.swp", "install.sh", "Makefile"]
     result = ScanResult(repo_path=str(repo_path), home_path=str(home_path))
 
@@ -134,7 +150,7 @@ def scan_drift(
         for p in repo_path.rglob("*"):
             if p.is_file():
                 rel = p.relative_to(repo_path).as_posix()
-                if any(fnmatch.fnmatch(rel, pat) or fnmatch.fnmatch(Path(rel).name, pat) for pat in ignore):
+                if _is_ignored(rel, ignore):
                     continue
                 repo_files.append(rel)
 
@@ -145,7 +161,7 @@ def scan_drift(
     for p in home_path.iterdir():
         if p.name.startswith(".") and p.is_file():
             rel = p.name
-            if not any(fnmatch.fnmatch(rel, pat) for pat in ignore):
+            if not _is_ignored(rel, ignore):
                 home_files_map[rel] = p
     # Also check common subdirs
     for subdir in [".config", ".local/bin"]:
@@ -154,7 +170,7 @@ def scan_drift(
             for p in sub.rglob("*"):
                 if p.is_file():
                     rel = p.relative_to(home_path).as_posix()
-                    if not any(fnmatch.fnmatch(Path(rel).name, pat) for pat in ignore):
+                    if not _is_ignored(rel, ignore):
                         home_files_map[rel] = p
 
     result.home_files = len(home_files_map)

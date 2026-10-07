@@ -84,6 +84,43 @@ class TestScanDrift:
         assert result.synced >= 1
 
 
+class TestGitDirNotCopied:
+    def test_git_dir_never_copied(self, tmp_path):
+        """Verify that .git/ directory is never copied during sync --force."""
+        repo = tmp_path / "repo"
+        repo.mkdir()
+        home = tmp_path / "home"
+        home.mkdir()
+
+        # Create a normal dotfile
+        (repo / ".bashrc").write_text("alias ll='ls -la'\n")
+
+        # Create a .git/ directory with files (simulating a real git repo)
+        git_dir = repo / ".git"
+        git_dir.mkdir()
+        (git_dir / "HEAD").write_text("ref: refs/heads/main\n")
+        (git_dir / "config").write_text("[core]\n\trepositoryformatversion = 0\n")
+        (git_dir / "objects").mkdir()
+        (git_dir / "objects" / "abc123").write_text("fake object\n")
+
+        # Scan and sync
+        result = scan_drift(repo, home)
+        # .git/* files should NOT appear in the scan results
+        git_files = [f for f in result.files if f.path.startswith(".git/")]
+        assert len(git_files) == 0, f"Found .git/ files in scan results: {git_files}"
+
+        # Apply sync (force mode = not dry_run)
+        apply_sync(repo, home, result, dry_run=False)
+
+        # Verify .git/ was NOT copied to home
+        assert not (home / ".git").exists(), ".git/ directory was copied to home!"
+        assert not (home / ".git" / "HEAD").exists(), ".git/HEAD was copied to home!"
+
+        # Verify the normal dotfile WAS copied
+        assert (home / ".bashrc").exists()
+        assert (home / ".bashrc").read_text() == "alias ll='ls -la'\n"
+
+
 class TestApplySync:
     def test_dry_run_no_changes(self, tmp_dotfiles):
         repo, home = tmp_dotfiles
