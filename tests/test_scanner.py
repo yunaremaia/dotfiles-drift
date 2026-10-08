@@ -83,6 +83,24 @@ class TestScanDrift:
         result = scan_drift(repo, home, only_tracked=True)
         assert result.synced >= 1
 
+    def test_only_tracked_non_ascii_filename(self, tmp_path):
+        """Non-ASCII tracked files must not be reported as missing (issue #60)."""
+        import subprocess
+        repo = tmp_path / "repo"
+        repo.mkdir()
+        home = tmp_path / "home"
+        home.mkdir()
+        # Create a file with a non-ASCII name
+        (repo / ".config").mkdir()
+        (repo / ".config" / "café.conf").write_text("x\n")
+        (home / ".config").mkdir()
+        (home / ".config" / "café.conf").write_text("x\n")
+        subprocess.run(["git", "init", str(repo)], capture_output=True)
+        subprocess.run(["git", "add", "."], cwd=str(repo), capture_output=True)
+        result = scan_drift(repo, home, only_tracked=True)
+        assert result.missing == 0
+        assert result.synced >= 1
+
 
 class TestGitDirNotCopied:
     def test_git_dir_never_copied(self, tmp_path):

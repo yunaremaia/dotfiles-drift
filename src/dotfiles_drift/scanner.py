@@ -76,7 +76,7 @@ def _git_tracked_files(repo_path: Path) -> list[str]:
 
     try:
         result = subprocess.run(
-            ["git", "ls-files"],
+            ["git", "-c", "core.quotepath=false", "ls-files"],
             cwd=str(repo_path),
             capture_output=True,
             text=True,
