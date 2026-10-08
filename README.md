@@ -26,6 +26,9 @@ You keep your dotfiles in a git repo. You clone it onto a new machine. But which
 pip install git+https://github.com/yunaremaia/dotfiles-drift.git
 ```
 
+> **Not yet on PyPI.** Install from git with the line above. A PyPI release is
+> pending; the distribution name `dotfiles-drift` is currently free.
+
 ## Usage
 
 ```bash
