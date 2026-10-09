@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dotfiles-drift"
-version = "0.1.0"
+version = "0.2.0"
 description = "Detect drift between your dotfiles repo and your actual machine"
 readme = "README.md"
 license = {text = "MIT"}
