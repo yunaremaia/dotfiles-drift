@@ -5,8 +5,17 @@
 Answer the question: *"What changed on my machine that's not in my dotfiles repo, and vice versa?"*
 
 [![License](https://img.shields.io/github/license/yunaremaia/dotfiles-drift)](https://github.com/yunaremaia/dotfiles-drift/blob/main/LICENSE)
-[![CI](https://github.com/yunaremaia/dotfiles-drift/actions/workflows/ci.yml/badge.svg)](https://github.com/yunaremaia/dotfiles-drift/actions) [![Stars](https://img.shields.io/github/stars/yunaremaia/dotfiles-drift)](https://github.com/yunaremaia/dotfiles-drift) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/) [![Release](https://img.shields.io/github/v/release/yunaremaia/dotfiles-drift)](https://github.com/yunaremaia/dotfiles-drift/releases/latest)
+[![CI](https://github.com/yunaremaia/dotfiles-drift/actions/workflows/ci.yml/badge.svg)](https://github.com/yunaremaia/dotfiles-drift/actions) [![Stars](https://img.shields.io/github/stars/yunaremaia/dotfiles-drift)](https://github.com/yunaremaia/dotfiles-drift) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/) [![Release](https://img.shields.io/github/v/release/yunaremaia/dotfiles-drift)](https://github.com/yunaremaia/dotfiles-drift/releases/latest) [![PyPI](https://img.shields.io/pypi/v/dotfiles-drift.svg)](https://pypi.org/project/dotfiles-drift/)
 
+\## Quick Start
+
+```bash
+# Install from PyPI
+pip install dotfiles-drift
+
+# Check drift status
+dotfiles-drift status $HOME
+```
 ## Why
 
 You keep your dotfiles in a git repo. You clone it onto a new machine. But which files did you forget to add? Which files exist in `$HOME` but not in the repo? Which files have been modified locally without being committed?
@@ -23,7 +32,7 @@ You keep your dotfiles in a git repo. You clone it onto a new machine. But which
 ## Install
 
 ```bash
-pip install git+https://github.com/yunaremaia/dotfiles-drift.git
+pip install dotfiles-drift
 ```
 
 > **Not yet on PyPI.** Install from git with the line above. A PyPI release is
